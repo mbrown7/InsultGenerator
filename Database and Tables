@@ -1,0 +1,54 @@
+CREATE DATABASE insult_generator;
+
+USE insult_generator;
+
+CREATE TABLE insult_adjectives                                                               
+
+                                              
+    -> (                                                                                     
+
+                                                     
+    -> id INT NOT NULL AUTO_INCREMENT,                                                       
+
+                                                     
+    -> PRIMARY KEY (id),                                                                     
+
+                                                     
+    -> adjective varchar(10)                                                                 
+
+                                                     
+    -> );     
+
+CREATE TABLE insult_verbs                                                                    
+
+                                         
+    -> (                                                                                     
+
+                                                     
+    -> id INT NOT NULL AUTO_INCREMENT,                                                       
+
+                                                     
+    -> PRIMARY KEY (id),                                                                     
+
+                                                     
+    -> verb varchar(10)                                                                      
+
+                                                
+    -> );     
+
+CREATE TABLE insult_nouns                                                                    
+
+                                         
+    -> (                                                                                     
+
+                                                     
+    -> id INT NOT NULL AUTO_INCREMENT,                                                       
+
+                                                     
+    -> PRIMARY KEY (id),                                                                     
+
+                                                     
+    -> noun varchar(10)                                                                      
+
+                                                
+    -> );   
