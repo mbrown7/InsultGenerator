@@ -1,0 +1,23 @@
+INSERT INTO insult_verbs (verb)
+VALUE
+('despise'),
+('abhor'),
+('hate'),
+('spit'),
+('piss'),
+('kick'),
+('punch'),
+('kill'),
+('cut'),
+('destroy'),
+('beat'),
+('slap'),
+('flick off'),
+('knee'),
+('choke'),
+('stab'),
+('wreck'),
+('burn'),
+('wish'),
+('drown')
+;
