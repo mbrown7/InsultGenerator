@@ -1,0 +1,24 @@
+INSERT INTO insult_nouns (nouns)
+
+VALUES
+('idiot'),
+('retard'),
+('moron'),
+('bitch'),
+('fucker'),
+('shithead'),
+('asshole'),
+('bastard'),
+('asswipe'),
+('fucktard'),
+('sluggard'),
+('dumb ass'),
+('dog'),
+('pussy'),
+('drunkard'),
+('prick'),
+('dick head'),
+('chicken'),
+('twit'),
+('slug')
+;
