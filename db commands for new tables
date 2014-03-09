@@ -1,7 +1,0 @@
-USE insult_generator;
-
-CREATE TABLE word1 (id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY(id), word varchar(20));
-
-CREATE TABLE word2 (id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY(id), word varchar(20));
-
-CREATE TABLE word3 (id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY(id), word varchar(20));
