@@ -35,7 +35,9 @@ CREATE TABLE `insult_adjectives` (
 
 LOCK TABLES `insult_adjectives` WRITE;
 /*!40000 ALTER TABLE `insult_adjectives` DISABLE KEYS */;
-INSERT INTO `insult_adjectives` VALUES (1,'big'),(2,'fat'),(3,'tiny'),(4,'weak');
+INSERT INTO `insult_adjectives` VALUES (1,'filthy'),(2,'big hairy'),(3,'smelly'),(4,'unshaven'),(5,'Illiterate'),(6,'unsavory')
+,(7,'swarthy'),(8,'spackled'),(9,'unfaithful'),(10,'rancid'),(11,'cheating'),(12,'racist'),(13,'lazy'),(14,'butt hurt')
+,(15,'country fried'),(16,'horny'),(17,'convicted'),(18,'evil'),(19,'uneducated');
 /*!40000 ALTER TABLE `insult_adjectives` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -59,7 +61,9 @@ CREATE TABLE `insult_nouns` (
 
 LOCK TABLES `insult_nouns` WRITE;
 /*!40000 ALTER TABLE `insult_nouns` DISABLE KEYS */;
-INSERT INTO `insult_nouns` VALUES (1,'idiot'),(2,'moron'),(3,'bitch'),(4,'bastard');
+INSERT INTO `insult_nouns` VALUES (1,'lawn'),(2,'hound'),(3,'porch'),(4,'nerf'),(5,'drunk'),(6,'swine'),(7,'husband')
+,(8,'politician'),(9,'sewer'),(10,'crotch'),(11,'bum'),(12,'bailout'),(13,'elderberry'),(14,'trash'),(15,'mud')
+,(16,'cheese'),(17,'donkey'),(18,'hiney'),(19,'porn');
 /*!40000 ALTER TABLE `insult_nouns` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -83,7 +87,9 @@ CREATE TABLE `insult_verbs` (
 
 LOCK TABLES `insult_verbs` WRITE;
 /*!40000 ALTER TABLE `insult_verbs` DISABLE KEYS */;
-INSERT INTO `insult_verbs` VALUES (1,'despise'),(2,'abhor'),(3,'hate'),(4,'spit');
+INSERT INTO `insult_verbs` VALUES (1,'monger'),(2,'spangler'),(3,'kisser'),(4,'herder'),(5,'fossil'),(6,'licker')
+,(7,'puncher'),(8,'fondler'),(9,'gambler'),(10,'nazi'),(11,'cleaner'),(12,'jockey'),(13,'swallower'),(14,'head')
+,(15,'sucker'),(16,'addict'),(17,'tickler'),(18,'polisher'),(19,'smuggler');
 /*!40000 ALTER TABLE `insult_verbs` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -96,4 +102,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-03-09  3:30:41
+-- Dump completed on 2014-03-10  1:18:41
