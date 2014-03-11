@@ -37,16 +37,27 @@ def mainIndex( ):
 def homeIndex( ):
   db = utils.db_connect()
   cur = db.cursor()
-  random1 = random.randint(1,4)
-  query = "SELECT verb FROM insult_verbs WHERE id = " + str(random1)
+  query = "SELECT COUNT(*) FROM insult_verbs"
+  cur.execute(query)
+  numverbs = cur.fetchall()
+  rand = random.randint(1,numverbs[0][0])
+  query = "SELECT verb FROM insult_verbs WHERE id = " + str(rand)
   cur.execute(query)
   verb = cur.fetchall()
-  random2 = random.randint(1,4)
-  query = "SELECT noun FROM insult_nouns WHERE id = " + str(random2)
+  
+  query = "SELECT COUNT(*) FROM insult_nouns"
+  cur.execute(query)
+  numnouns = cur.fetchall()
+  rand = random.randint(1,numnouns[0][0])
+  query = "SELECT noun FROM insult_nouns WHERE id = " + str(rand)
   cur.execute(query)
   noun = cur.fetchall()
-  random3 = random.randint(1,4)
-  query = "SELECT adjective FROM insult_adjectives WHERE id = " + str(random3)
+  
+  query = "SELECT COUNT(*) FROM insult_adjectives"
+  cur.execute(query)
+  numadjectives = cur.fetchall()
+  rand = random.randint(1,numadjectives[0][0])
+  query = "SELECT adjective FROM insult_adjectives WHERE id = " + str(rand)
   cur.execute(query)
   adjective = cur.fetchall()
   return render_template('index.html', verb = verb, noun = noun, adjective = adjective)
