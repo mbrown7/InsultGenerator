@@ -2,7 +2,14 @@
 
 {% block content %}
 	<div id="body">
-  <p> You are a {{adjective[0][0]}} {{noun[0][0]}} {{verb[0][0]}}!</p>
-    	</div>
+    <p> You are a {{adjective[0][0]}} {{noun[0][0]}} {{verb[0][0]}}!</p>
+    <center>
+    <form method = "get" action = "/insult">
+		<table>
+			<tr><td><input type="submit" value="Get New Insult" /></td></tr>
+		</table>
+		</form>
+    </center>
+ 	</div>
 
 {% endblock %}

@@ -3,6 +3,7 @@ import random
 import MySQLdb
 import utils
 app = Flask(__name__)
+intensity = 1
 
 @app.route('/')
 def mainIndex( ):
@@ -12,13 +13,17 @@ def mainIndex( ):
 def homeIndex( ):
   return render_template('index.html')
 
-@app.route('/insult', methods=['POST'])
+@app.route('/insult', methods=['POST','GET'])
 def insult( ):
   db = utils.db_connect()
   cur = db.cursor()
   
-  intensity = request.form['intense']
+  if request.method == 'POST':
+    #Get the intensity from the form
+    global intensity
+    intensity = request.form['intense']
   
+  print intensity
   #Getting the verb
   #search based on intensity
   query = "SELECT id FROM insult_verbs WHERE intensity = '" + str(intensity) + "'"
