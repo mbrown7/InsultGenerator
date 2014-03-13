@@ -2,6 +2,15 @@
 
 {% block content %}
 	<div id="body">
-  <p> You are a {{adjective[0][0]}} {{noun[0][0]}} {{verb[0][0]}}!</p>
-	</div>
+<center>
+<form method = "post" action = "/insult">
+					<table>
+					<tr><td>How Intense?</td><td>tame <input type="range" id="intense" name="intense" min="1" max="4" step="1" value="1"/>offensive</td></tr>
+					<tr><td><input type="submit" value="Generate Insult" /></td></tr>
+					</table>
+					
+					</form>
+    </center>
+    	</div>
+
 {% endblock %}

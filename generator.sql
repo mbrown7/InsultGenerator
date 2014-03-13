@@ -6,29 +6,35 @@ USE insult_generator;
 CREATE TABLE IF NOT EXISTS `insult_adjectives` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `adjective` varchar(10) DEFAULT NULL,
+  `intensity` int(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 );
 
-INSERT INTO `insult_adjectives` VALUES (1,'filthy'),(2,'big hairy'),(3,'smelly'),(4,'unshaven'),(5,'Illiterate'),(6,'unsavory')
-,(7,'swarthy'),(8,'spackled'),(9,'unfaithful'),(10,'rancid'),(11,'cheating'),(12,'racist'),(13,'lazy'),(14,'butt hurt')
-,(15,'horny'),(16,'convicted'),(17,'evil'),(18,'uneducated');
+#intensity 0 = tame, intensity 4 = most offensive
+INSERT INTO `insult_adjectives` (adjective, intensity) VALUES ('filthy',3),('big hairy',1),('smelly',1),('unshaven',1),('Illiterate',3),('unsavory',2)
+,('swarthy',3),('spackled',2),('unfaithful',2),('rancid',4),('cheating',3),('racist',4),('lazy',2),('butt hurt',4)
+,('horny',2),('convicted',2),('evil',3),('uneducated',2);
 
 CREATE TABLE IF NOT EXISTS `insult_nouns` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `noun` varchar(10) DEFAULT NULL,
+  `intensity` int(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 );
 
-INSERT INTO `insult_nouns` VALUES (1,'lawn'),(2,'hound'),(3,'porch'),(4,'nerf'),(5,'drunk'),(6,'swine'),(7,'husband')
-,(8,'politician'),(9,'sewer'),(10,'crotch'),(11,'bum'),(12,'bailout'),(13,'elderberry'),(14,'trash'),(15,'mud')
-,(16,'cheese'),(17,'donkey'),(18,'hiney'),(19,'porn');
+#intensity 0 = tame, intensity 4 = most offensive
+INSERT INTO `insult_nouns` (noun, intensity) VALUES ('lawn',1),('hound',3),('porch',1),('nerf',2),('drunk',2),('swine',4),('husband',1)
+,('politician',2),('sewer',3),('crotch',4),('bum',2),('bailout',2),('elderberry',3),('trash',3),('mud',2)
+,('cheese',1),('donkey',2),('hiney',2),('porn',3);
 
 CREATE TABLE IF NOT EXISTS `insult_verbs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `verb` varchar(10) DEFAULT NULL,
+  `intensity` int(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 );
 
-INSERT INTO `insult_verbs` VALUES (1,'monger'),(2,'spangler'),(3,'kisser'),(4,'herder'),(5,'fossil'),(6,'licker')
-,(7,'puncher'),(8,'fondler'),(9,'gambler'),(10,'nazi'),(11,'cleaner'),(12,'jockey'),(13,'swallower'),(14,'head')
-,(15,'sucker'),(16,'addict'),(17,'tickler'),(18,'polisher'),(19,'smuggler');
+#intensity 0 = tame, intensity 4 = most offensive
+INSERT INTO `insult_verbs` (verb, intensity) VALUES ('monger',4),('spangler',2),('kisser',1),('herder',1),('fossil',3),('licker',2)
+,('puncher',2),('fondler',3),('gambler',3),('nazi',4),('cleaner',1),('jockey',2),('swallower',4),('head',2)
+,('sucker',2),('addict',3),('tickler',1),('polisher',1),('smuggler',2);

@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import random
 import MySQLdb
 import utils
@@ -6,65 +6,67 @@ app = Flask(__name__)
 
 @app.route('/')
 def mainIndex( ):
-  db = utils.db_connect()
-  cur = db.cursor()
-  query = "SELECT COUNT(*) FROM insult_verbs"
-  cur.execute(query)
-  numverbs = cur.fetchall()
-  rand = random.randint(1,numverbs[0][0])
-  query = "SELECT verb FROM insult_verbs WHERE id = " + str(rand)
-  cur.execute(query)
-  verb = cur.fetchall()
-  
-  query = "SELECT COUNT(*) FROM insult_nouns"
-  cur.execute(query)
-  numnouns = cur.fetchall()
-  rand = random.randint(1,numnouns[0][0])
-  query = "SELECT noun FROM insult_nouns WHERE id = " + str(rand)
-  cur.execute(query)
-  noun = cur.fetchall()
-  
-  query = "SELECT COUNT(*) FROM insult_adjectives"
-  cur.execute(query)
-  numadjectives = cur.fetchall()
-  rand = random.randint(1,numadjectives[0][0])
-  query = "SELECT adjective FROM insult_adjectives WHERE id = " + str(rand)
-  cur.execute(query)
-  adjective = cur.fetchall()
-  return render_template('index.html', verb = verb, noun = noun, adjective = adjective)
+  return render_template('index.html')
 
 @app.route('/index.html')
 def homeIndex( ):
+  return render_template('index.html')
+
+@app.route('/insult', methods=['POST'])
+def insult( ):
   db = utils.db_connect()
   cur = db.cursor()
-  query = "SELECT COUNT(*) FROM insult_verbs"
+  
+  intensity = request.form['intense']
+  
+  #Getting the verb
+  #search based on intensity
+  query = "SELECT id FROM insult_verbs WHERE intensity = '" + str(intensity) + "'"
   cur.execute(query)
-  numverbs = cur.fetchall()
-  rand = random.randint(1,numverbs[0][0])
-  query = "SELECT verb FROM insult_verbs WHERE id = " + str(rand)
+  #get all the verbs of that intensity
+  possible = cur.fetchall()
+  numpossible = len(possible)
+  #pick a random index to use
+  rand = random.randint(0,numpossible-1)
+  #get the value at that index
+  target = possible[rand][0]
+  #use that value as the id of the verb
+  query = "SELECT verb FROM insult_verbs WHERE id = " + str(target)
   cur.execute(query)
   verb = cur.fetchall()
   
-  query = "SELECT COUNT(*) FROM insult_nouns"
+  #Getting the noun
+  #search based on intensity
+  query = "SELECT id FROM insult_nouns WHERE intensity = '" + str(intensity) + "'"
   cur.execute(query)
-  numnouns = cur.fetchall()
-  rand = random.randint(1,numnouns[0][0])
-  query = "SELECT noun FROM insult_nouns WHERE id = " + str(rand)
+  #get all the verbs of that intensity
+  possible = cur.fetchall()
+  numpossible = len(possible)
+  #pick a random index to use
+  rand = random.randint(0,numpossible-1)
+  #get the value at that index
+  target = possible[rand][0]
+  #use that value as the id of the verb
+  query = "SELECT noun FROM insult_nouns WHERE id = " + str(target)
   cur.execute(query)
   noun = cur.fetchall()
   
-  query = "SELECT COUNT(*) FROM insult_adjectives"
+  #Getting the adjective
+  #search based on intensity
+  query = "SELECT id FROM insult_adjectives WHERE intensity = '" + str(intensity) + "'"
   cur.execute(query)
-  numadjectives = cur.fetchall()
-  rand = random.randint(1,numadjectives[0][0])
-  query = "SELECT adjective FROM insult_adjectives WHERE id = " + str(rand)
+  #get all the verbs of that intensity
+  possible = cur.fetchall()
+  numpossible = len(possible)
+  #pick a random index to use
+  rand = random.randint(0,numpossible-1)
+  #get the value at that index
+  target = possible[rand][0]
+  #use that value as the id of the verb
+  query = "SELECT adjective FROM insult_adjectives WHERE id = " + str(target)
   cur.execute(query)
   adjective = cur.fetchall()
-  return render_template('index.html', verb = verb, noun = noun, adjective = adjective)
-
-@app.route('/about.html')
-def about( ):
-  return render_template('about.html')
+  return render_template('insult.html', verb = verb, noun = noun, adjective = adjective)
 
 @app.route('/contact.html')
 def contact( ):
