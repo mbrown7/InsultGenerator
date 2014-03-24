@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block content %}
+	<div id="body">
+    <p> Thou art a {{adjective1[0][0]}} {{noun1[0][0]}} {{verb1[0][0]}}!</p>
+    <center>
+    <form method = "get" action = "/shakespeare">
+		<table>
+			<tr><td><input type="submit" value="Get New Insult" /></td></tr>
+		</table>
+		</form>
+    </center>
+ 	</div>
+
+{% endblock %}
