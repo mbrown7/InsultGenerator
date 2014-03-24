@@ -77,6 +77,7 @@ def insult( ):
 def shakespeare( ):
   db = utils.db_connect()
   cur = db.cursor()
+  
   query = "SELECT COUNT(*) FROM shakespeare_verbs"
   cur.execute(query)
   numverbs = cur.fetchall()

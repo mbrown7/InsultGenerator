@@ -83,7 +83,7 @@ DROP TABLE IF EXISTS `shakespeare_nouns`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `shakespeare_nouns` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `adjective` varchar(20) DEFAULT NULL,
+  `noun` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -110,7 +110,7 @@ DROP TABLE IF EXISTS `shakespeare_verbs`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `shakespeare_verbs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `adjective` varchar(20) DEFAULT NULL,
+  `verb` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
