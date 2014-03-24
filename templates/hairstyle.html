@@ -1,60 +1,18 @@
-{% extends "layout.html" %}
+{% extends "layout2.html" %}
 
 {% block content %}
-
 	<div id="body">
-		<h3>hairstyles</h3>
-		<ul>
-			<li>
-				<a href="#"><img src="images/hairstyle1.jpg" alt=""></a>
-			</li>
-			<li>
-				<a href="#"><img src="images/hairstyle2.jpg" alt=""></a>
-			</li>
-			<li>
-				<a href="#"><img src="images/hairstyle3.jpg" alt=""></a>
-			</li>
-			<li>
-				<a href="#"><img src="images/hairstyle4.jpg" alt=""></a>
-			</li>
-			<li>
-				<a href="#"><img src="images/hairstyle5.jpg" alt=""></a>
-			</li>
-			<li>
-				<a href="#"><img src="images/hairstyle6.jpg" alt=""></a>
-			</li>
-			<li>
-				<a href="#"><img src="images/hairstyle7.jpg" alt=""></a>
-			</li>
-			<li>
-				<a href="#"><img src="images/hairstyle8.jpg" alt=""></a>
-			</li>
-			<li>
-				<a href="#"><img src="images/hairstyle9.jpg" alt=""></a>
-			</li>
-			<li>
-				<a href="#"><img src="images/hairstyle10.jpg" alt=""></a>
-			</li>
-			<li>
-				<a href="#"><img src="images/hairstyle11.jpg" alt=""></a>
-			</li>
-			<li>
-				<a href="#"><img src="images/hairstyle12.jpg" alt=""></a>
-			</li>
-			<li>
-				<a href="#"><img src="images/hairstyle13.jpg" alt=""></a>
-			</li>
-			<li>
-				<a href="#"><img src="images/hairstyle14.jpg" alt=""></a>
-			</li>
-			<li>
-				<a href="#"><img src="images/hairstyle15.jpg" alt=""></a>
-			</li>
-			<li>
-				<a href="#"><img src="images/hairstyle16.jpg" alt=""></a>
-			</li>
-		</ul>
-		<a href="#" class="more">show more</a>
+		<center>
+    <form method = "post" action = "/insult2">
+		<table>
+			<tr><td>What is thy intensity?</td><td>tame <input type="range" id="intense" name="intense" min="1" max="4" step="1" value="1"/>offensive</td></tr>
+			<tr><td><input type="submit" value="Generate Insult" /></td></tr>
+		</table>
+		</form>
+    </center>
+		
 	</div>
 
 {% endblock %}
+	
+	
