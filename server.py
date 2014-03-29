@@ -1,17 +1,29 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import random
 import MySQLdb
 import utils
 app = Flask(__name__)
 intensity = 1
+currentUser = ''
 
 @app.route('/')
 def mainIndex( ):
-  return render_template('index.html')
+  return render_template('index.html', curus = currentUser)
 
 @app.route('/index.html')
 def homeIndex( ):
-  return render_template('index.html')
+  return render_template('index.html', curus = currentUser)
+
+@app.route('/custom', methods=['POST','GET'])
+def custom( ):
+  db = utils.db_connect()
+  cur = db.cursor()
+  
+  if request.method == 'POST':
+    #Get the intensity from the form
+    global intensity
+    intensity = request.form['intense']
+  return render_template('custom.html')
 
 @app.route('/insult', methods=['POST','GET'])
 def insult( ):
@@ -103,14 +115,48 @@ def shakespeare( ):
   adjective1 = cur.fetchall()
   return render_template('shakespeare.html', verb1 = verb1, noun1 = noun1, adjective1 = adjective1)
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    global currentUser
+    db = utils.db_connect()
+    cur = db.cursor(cursorclass=MySQLdb.cursors.DictCursor)
+    # if user typed in a post ...
+    if request.method == 'POST':
+      username = request.form['username']
+      pw = request.form['pw']
+      query = "select * from users WHERE username = '%s' AND password = SHA2('%s',0)" % (username, pw)
+      cur.execute(query)
+      if cur.fetchone():
+        currentUser = username
+        return redirect(url_for('mainIndex'))
+    return render_template('login.html', selectedMenu='Login', curus = currentUser)
 
-@app.route('/contact.html')
-def contact( ):
-  return render_template('contact.html')
+@app.route('/logout', methods=['GET','POST'])
+def logout():
+    global currentUser
+    db = utils.db_connect()
+    cur = db.cursor(cursorclass=MySQLdb.cursors.DictCursor)
+    # if user typed in a post ...
+    if request.method == 'POST':
+      currentUser = ''
+      return redirect(url_for('mainIndex'))
+    return render_template('logout.html', selectedMenu='Logout', curus = currentUser)
 
-@app.route('/news.html')
-def news( ):
-  return render_template('news.html')
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    global currentUser
+    db = utils.db_connect()
+    cur = db.cursor(cursorclass=MySQLdb.cursors.DictCursor)
+    # if user typed in a post ...
+    if request.method == 'POST':
+      un = request.form['username']
+      pw = request.form['pw']
+      query = "INSERT INTO users (username, password) VALUES ('%s', SHA2('%s',0))" % (un, pw)
+      cur.execute(query)
+      db.commit( )
+      currentUser = un
+      return redirect(url_for('mainIndex'))
+    return render_template('register.html', selectedMenu='Register', curus = currentUser)
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0',port=3000)

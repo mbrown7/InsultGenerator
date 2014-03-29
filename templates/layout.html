@@ -17,23 +17,25 @@
 				<li class="selected">
 					<a href="index.html">Home</a>
 				</li>
+        <li>
+					<a href="custom">Customize</a>
+				</li>
 				<li>
 					<a href="insult">Insult</a>
 				</li>
 				<li>
 					<a href="shakespeare">Shakespeare</a>
 				</li>
-				<li>
-					<a href="news.html">news</a>
+        <li>
+					<a href="login">Login</a>
+				</li>
+        <li>
+					<a href="logout">Logout</a>
 				</li>
 				<li>
-					<a href="contact.html">contact</a>
+					<a href="register">Register</a>
 				</li>
 			</ul>
-		</div>
-		<div class="article">
-			<img src="{{ url_for('static', filename='img/homeImage.png') }}" alt="">
-			<h1>Great insults come from the experts.</h1>
 		</div>
 	</div>
     {% block content %}{% endblock %}

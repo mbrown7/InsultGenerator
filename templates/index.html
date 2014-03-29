@@ -1,15 +1,12 @@
 {% extends "layout.html" %}
 
 {% block content %}
-	<div id="body">
-    <center>
-    <form method = "post" action = "/insult">
-		<table>
-			<tr><td>How Intense?</td><td>tame <input type="range" id="intense" name="intense" min="1" max="4" step="1" value="1"/>offensive</td></tr>
-			<tr><td><input type="submit" value="Generate Insult" /></td></tr>
-		</table>
-		</form>
-    </center>
- 	</div>
+
+	<div id="header">
+		<div class="article">
+			<img src="{{ url_for('static', filename='img/homeImage.png') }}" alt="">
+      <h1><center><p>Welcome {{curus}}</p></center><p>Great insults come from the experts.</p></h1>
+		</div>
+	</div>
 
 {% endblock %}

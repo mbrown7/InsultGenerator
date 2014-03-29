@@ -3,6 +3,13 @@ CREATE DATABASE IF NOT EXISTS insult_generator;
 GRANT ALL PRIVILEGES ON insult_generator.* to 'blogUser'@'localhost' identified by 'blogPassword';
 USE insult_generator;
 
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(12) NOT NULL,
+  `password` varchar(256) NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
 CREATE TABLE IF NOT EXISTS `insult_adjectives` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `adjective` varchar(10) DEFAULT NULL,
