@@ -1,261 +1,164 @@
-from flask import Flask, render_template, request, redirect, url_for
-import random
-import MySQLdb
-import utils
-app = Flask(__name__)
-intensity = 1
-currentUser = ''
+DROP DATABASE IF EXISTS insult_generator;
+CREATE DATABASE IF NOT EXISTS insult_generator;
+GRANT ALL PRIVILEGES ON insult_generator.* to 'blogUser'@'localhost' identified by 'blogPassword';
+USE insult_generator;
 
-@app.route('/')
-def mainIndex( ):
-  return render_template('index.html', curus = currentUser)
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(12) NOT NULL,
+  `password` varchar(256) NOT NULL,
+  PRIMARY KEY (`id`)
+);
 
-@app.route('/index.html')
-def homeIndex( ):
-  return render_template('index.html', curus = currentUser)
+CREATE TABLE IF NOT EXISTS `insult_adjectives` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `adjective` varchar(10) DEFAULT NULL,
+  `intensity` int(1) DEFAULT '0',
+  PRIMARY KEY (`id`)
+);
 
-@app.route('/custom', methods=['POST','GET'])
-def custom( ):
-  db = utils.db_connect()
-  cur = db.cursor()
-  
-  if request.method == 'POST':
-    #Get the intensity from the form
-    global intensity
-    intensity = request.form['intense']
-  return render_template('custom.html')
+#intensity 0 = tame, intensity 4 = most offensive
+INSERT INTO `insult_adjectives` (adjective, intensity) VALUES ('filthy',3),('big hairy',1),('smelly',1),('unshaven',1),('Illiterate',3),('unsavory',2)
+,('swarthy',3),('spackled',2),('unfaithful',2),('rancid',4),('cheating',3),('racist',4),('lazy',2),('butt hurt',4)
+,('horny',2),('convicted',2),('evil',3),('uneducated',2);
 
-@app.route('/insult', methods=['POST','GET'])
-def insult( ):
-  db = utils.db_connect()
-  cur = db.cursor()
-  
-  if request.method == 'POST':
-    #Get the intensity from the form
-    global intensity
-    intensity = request.form['intense']
-  
-  print intensity
-  #Getting the verb
-  #search based on intensity
-  query = "SELECT id FROM insult_verbs WHERE intensity = '" + str(intensity) + "'"
-  cur.execute(query)
-  #get all the verbs of that intensity
-  possible = cur.fetchall()
-  numpossible = len(possible)
-  #pick a random index to use
-  rand = random.randint(0,numpossible-1)
-  #get the value at that index
-  target = possible[rand][0]
-  #use that value as the id of the verb
-  query = "SELECT verb FROM insult_verbs WHERE id = " + str(target)
-  cur.execute(query)
-  verb = cur.fetchall()
-  
-  #Getting the noun
-  #search based on intensity
-  query = "SELECT id FROM insult_nouns WHERE intensity = '" + str(intensity) + "'"
-  cur.execute(query)
-  #get all the verbs of that intensity
-  possible = cur.fetchall()
-  numpossible = len(possible)
-  #pick a random index to use
-  rand = random.randint(0,numpossible-1)
-  #get the value at that index
-  target = possible[rand][0]
-  #use that value as the id of the verb
-  query = "SELECT noun FROM insult_nouns WHERE id = " + str(target)
-  cur.execute(query)
-  noun = cur.fetchall()
-  
-  #Getting the adjective
-  #search based on intensity
-  query = "SELECT id FROM insult_adjectives WHERE intensity = '" + str(intensity) + "'"
-  cur.execute(query)
-  #get all the verbs of that intensity
-  possible = cur.fetchall()
-  numpossible = len(possible)
-  #pick a random index to use
-  rand = random.randint(0,numpossible-1)
-  #get the value at that index
-  target = possible[rand][0]
-  #use that value as the id of the verb
-  query = "SELECT adjective FROM insult_adjectives WHERE id = " + str(target)
-  cur.execute(query)
-  adjective = cur.fetchall()
-  return render_template('insult.html', verb = verb, noun = noun, adjective = adjective)
+CREATE TABLE IF NOT EXISTS `insult_nouns` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `noun` varchar(10) DEFAULT NULL,
+  `intensity` int(1) DEFAULT '0',
+  PRIMARY KEY (`id`)
+);
 
-@app.route('/shakespeare', methods=['POST','GET'])
-def shakespeare( ):
-  db = utils.db_connect()
-  cur = db.cursor()
-  
-  query = "SELECT COUNT(*) FROM shakespeare_verbs"
-  cur.execute(query)
-  numverbs = cur.fetchall()
-  rand = random.randint(1,numverbs[0][0])
-  query = "SELECT verb FROM shakespeare_verbs WHERE id = " + str(rand)
-  cur.execute(query)
-  verb1 = cur.fetchall()
-  
-  query = "SELECT COUNT(*) FROM shakespeare_nouns"
-  cur.execute(query)
-  numnouns = cur.fetchall()
-  rand = random.randint(1,numnouns[0][0])
-  query = "SELECT noun FROM shakespeare_nouns WHERE id = " + str(rand)
-  cur.execute(query)
-  noun1 = cur.fetchall()
-  
-  query = "SELECT COUNT(*) FROM shakespeare_adjectives"
-  cur.execute(query)
-  numadjectives = cur.fetchall()
-  rand = random.randint(1,numadjectives[0][0])
-  query = "SELECT adjective FROM shakespeare_adjectives WHERE id = " + str(rand)
-  cur.execute(query)
-  adjective1 = cur.fetchall()
-  return render_template('shakespeare.html', verb1 = verb1, noun1 = noun1, adjective1 = adjective1)
+#intensity 0 = tame, intensity 4 = most offensive
+INSERT INTO `insult_nouns` (noun, intensity) VALUES ('lawn',1),('hound',3),('porch',1),('nerf',2),('drunk',2),('swine',4),('husband',1)
+,('politician',2),('sewer',3),('crotch',4),('bum',2),('bailout',2),('elderberry',3),('trash',3),('mud',2)
+,('cheese',1),('donkey',2),('hiney',2),('porn',3);
+
+CREATE TABLE IF NOT EXISTS `insult_verbs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `verb` varchar(10) DEFAULT NULL,
+  `intensity` int(1) DEFAULT '0',
+  PRIMARY KEY (`id`)
+);
+
+#intensity 0 = tame, intensity 4 = most offensive
+INSERT INTO `insult_verbs` (verb, intensity) VALUES ('monger',4),('spangler',2),('kisser',1),('herder',1),('fossil',3),('licker',2)
+,('puncher',2),('fondler',3),('gambler',3),('nazi',4),('cleaner',1),('jockey',2),('swallower',4),('head',2)
+,('sucker',2),('addict',3),('tickler',1),('polisher',1),('smuggler',2);
 
 
 
 
-@app.route('/responses', methods=['POST','GET'])
-def responses( ):
-  db = utils.db_connect()
-  cur = db.cursor()
-  
-  #/***************************/
-  #/****# shakespeare insults *****/
-  
-  query = "SELECT COUNT(*) FROM shakespeare_verbs"
-  cur.execute(query)
-  numverbs = cur.fetchall()
-  rand = random.randint(1,numverbs[0][0])
-  query = "SELECT verb FROM shakespeare_verbs WHERE id = " + str(rand)
-  cur.execute(query)
-  verb1 = cur.fetchall()
-  
-  query = "SELECT COUNT(*) FROM shakespeare_nouns"
-  cur.execute(query)
-  numnouns = cur.fetchall()
-  rand = random.randint(1,numnouns[0][0])
-  query = "SELECT noun FROM shakespeare_nouns WHERE id = " + str(rand)
-  cur.execute(query)
-  noun1 = cur.fetchall()
-  
-  query = "SELECT COUNT(*) FROM shakespeare_adjectives"
-  cur.execute(query)
-  numadjectives = cur.fetchall()
-  rand = random.randint(1,numadjectives[0][0])
-  query = "SELECT adjective FROM shakespeare_adjectives WHERE id = " + str(rand)
-  cur.execute(query)
-  adjective1 = cur.fetchall()
-  
-  #/***************************/
-  #/****# regular insults *****/
-  
+/* end regular insults */
 
-  query = "SELECT id FROM insult_verbs"
-  cur.execute(query)
-  #get all the verbs of that intensity
-  possible = cur.fetchall()
-  numpossible = len(possible)
-  #pick a random index to use
-  rand = random.randint(0,numpossible-1)
-  #get the value at that index
-  target = possible[rand][0]
-  #use that value as the id of the verb
-  query = "SELECT verb FROM insult_verbs WHERE id = " + str(target)
-  cur.execute(query)
-  verb = cur.fetchall()
-  
-  #Getting the noun
-  #search based on intensity
-  query = "SELECT id FROM insult_nouns"
-  cur.execute(query)
-  #get all the verbs of that intensity
-  possible = cur.fetchall()
-  numpossible = len(possible)
-  #pick a random index to use
-  rand = random.randint(0,numpossible-1)
-  #get the value at that index
-  target = possible[rand][0]
-  #use that value as the id of the verb
-  query = "SELECT noun FROM insult_nouns WHERE id = " + str(target)
-  cur.execute(query)
-  noun = cur.fetchall()
-  
-  #Getting the adjective
-  #search based on intensity
-  query = "SELECT id FROM insult_adjectives"
-  cur.execute(query)
-  #get all the verbs of that intensity
-  possible = cur.fetchall()
-  numpossible = len(possible)
-  #pick a random index to use
-  rand = random.randint(0,numpossible-1)
-  #get the value at that index
-  target = possible[rand][0]
-  #use that value as the id of the verb
-  query = "SELECT adjective FROM insult_adjectives WHERE id = " + str(target)
-  cur.execute(query)
-  adjective = cur.fetchall()
-  
-  #/***************************/
-  #/******# long insult *******/
-
-  query = "SELECT fi.insult FROM full_insults AS fi INNER JOIN shakespeare_adjectives AS sa ON fi.foreign_key = sn.id AND sa.id = " + str(target)
-  cur.execute(query)
-  fullInsult = cur.fetchall()
-  
-  
-  #/**************************/
-  
-  return render_template('responses.html', verb1 = verb1, noun1 = noun1, adjective1 = adjective1, verb = verb, noun = noun, adjective = adjective, fullInsult = fullInsult)
+/*********************************************************/
+/* shakespeare insults */
 
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    global currentUser
-    db = utils.db_connect()
-    cur = db.cursor(cursorclass=MySQLdb.cursors.DictCursor)
-    # if user typed in a post ...
-    if request.method == 'POST':
-      username = request.form['username']
-      pw = request.form['pw']
-      query = "select * from users WHERE username = '%s' AND password = SHA2('%s',0)" % (username, pw)
-      cur.execute(query)
-      if cur.fetchone():
-        currentUser = username
-        return redirect(url_for('mainIndex'))
-    return render_template('login.html', selectedMenu='Login', curus = currentUser)
+DROP TABLE IF EXISTS `shakespeare_adjectives`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `shakespeare_adjectives` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `adjective` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-@app.route('/logout', methods=['GET','POST'])
-def logout():
-    global currentUser
-    db = utils.db_connect()
-    cur = db.cursor(cursorclass=MySQLdb.cursors.DictCursor)
-    # if user typed in a post ...
-    if request.method == 'POST':
-      currentUser = ''
-      return redirect(url_for('mainIndex'))
-    return render_template('logout.html', selectedMenu='Logout', curus = currentUser)
+--
+-- Dumping data for table `insult_adjectives`
+--
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    global currentUser
-    db = utils.db_connect()
-    cur = db.cursor(cursorclass=MySQLdb.cursors.DictCursor)
-    # if user typed in a post ...
-    if request.method == 'POST':
-      un = request.form['username']
-      pw = request.form['pw']
-      query = "INSERT INTO users (username, password) VALUES ('%s', SHA2('%s',0))" % (un, pw)
-      cur.execute(query)
-      db.commit( )
-      currentUser = un
-      return redirect(url_for('mainIndex'))
-    return render_template('register.html', selectedMenu='Register', curus = currentUser)
+LOCK TABLES `shakespeare_adjectives` WRITE;
+/*!40000 ALTER TABLE `insult_adjectives` DISABLE KEYS */;
+INSERT INTO `shakespeare_adjectives` VALUES (1,'artless'),(2,'bawdy'),(3,'beslubbering'),(4,'bootless'),(5,'churlish'),(6,'cockered')
+,(7,'clouted'),(8,'craven'),(9,'currish'),(10,'dankish'),(11,'dissembling'),(12,'droning'),(13,'errant'),(14,'fawning')
+,(15,'fobbing'),(16,'froward'),(17,'frothy'),(18,'gleeking'),(19,'goatish'),(20,'gorbellied'),(21,'impertinent'),(22,'infectious'),(23,'jarring')
+,(24,'loggerheaded'),(25,'lumpish'),(26,'mammering'),(27,'mangled'),(28,'mewling'),(29,'paunchy'),(30,'pribbling'),(31,'puking'),(32,'puny')
+,(33,'qualling'),(34,'rank'),(35,'reeky'),(36,'roguish'),(37,'ruttish'),(38,'saucy'),(39,'spleeny'),(40,'spongy'),(41,'surly')
+,(42,'tottering'),(43,'unmuzzled'),(44,'vain'),(45,'venomed'),(46,'villainous'),(47,'warped'),(48,'wayward'),(49,'weedy'),(50,'yeasty');
+/*!40000 ALTER TABLE `insult_adjectives` ENABLE KEYS */;
+UNLOCK TABLES;
 
-if __name__ == '__main__':
-  app.run(host='0.0.0.0',port=3000)
+
+
+
+
+DROP TABLE IF EXISTS `shakespeare_nouns`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `shakespeare_nouns` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `noun` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `insult_adjectives`
+--
+
+LOCK TABLES `shakespeare_nouns` WRITE;
+/*!40000 ALTER TABLE `insult_adjectives` DISABLE KEYS */;
+INSERT INTO `shakespeare_nouns` VALUES (1,'base-court'),(2,'bat-fowling'),(3,'beef-witted'),(4,'beetle-headed'),(5,'boil-brained'),(6,'clapper-clawed'),(7,'clay-brained')
+,(8,'common-kissing'),(9,'crook-pated'),(10,'dismal-dreaming'),(11,'dizzy-eyed'),(12,'doghearted'),(13,'dread-bolted'),(14,'earth-vexing'),(15,'elf-skinned')
+,(16,'fat-kidneyed'),(17,'fen-sucking'),(18,'flap-mouthed'),(19,'flap-mouthed'),(20,'fly-bitten'),(21,'fool-born'),(22,'full-gorged'),(23,'guts-griped')
+,(24,'half-faced'),(25,'ahsty-witted'),(26,'hedge-born'),(27,'hell-hated'),(28,'idle-headed'),(29,'ill-breeding'),(30,'ill-nurtured'),(31,'knotty-pated'),(32,'milk-livered')
+,(33,'motly-minded'),(34,'onion-eyed'),(35,'plume-plucked'),(36,'pottle-deep'),(37,'pox-marked'),(38,'reeling-ripe'),(39,'rough-hewn'),(40,'rude-growing'),(41,'rump-fed')
+,(42,'shard-borne'),(43,'sheep-biting'),(44,'spur-galled'),(45,'swag-bellied'),(46,'tardy-gaited'),(47,'tickle-brained'),(48,'toad-spotted'),(49,'unchin-snouted'),(50,'weather-bitten');
+/*!40000 ALTER TABLE `insult_adjectives` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+
+DROP TABLE IF EXISTS `shakespeare_verbs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `shakespeare_verbs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `verb` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `insult_adjectives`
+--
+
+LOCK TABLES `shakespeare_verbs` WRITE;
+/*!40000 ALTER TABLE `insult_adjectives` DISABLE KEYS */;
+INSERT INTO `shakespeare_verbs` VALUES (1,'apple-john'),(2,'baggage'),(3,'barnacle'),(4,'bladder'),(5,'boar-pig'),(6,'bugbear')
+,(7,'bum-bailey'),(8,'canker-blossom'),(9,'clack-dish'),(10,'clotpole'),(11,'coxcomb'),(12,'codpiece'),(13,'death-token'),(14,'dewberry')
+,(15,'flap-dragon'),(16,'flax-wench'),(17,'flirt-gill'),(18,'foot-licker'),(19,'fustilarian'),(20,'giglet'),(21,'gudgeon'),(22,'haggard'),(23,'harpy')
+,(24,'hedge-pit'),(25,'horn-beast'),(26,'hugger-mugger'),(27,'joithead'),(28,'lewdster'),(29,'lout'),(30,'maggot-pie'),(31,'malt-worm'),(32,'mammet')
+,(33,'measle'),(34,'minnow'),(35,'miscreant'),(36,'moldwarp'),(37,'mumble-news'),(38,'nut-hook'),(39,'pidgeon-egg'),(40,'pignut'),(41,'puttock')
+,(42,'pumpion'),(43,'ratsbane'),(44,'scut'),(45,'skainsmate'),(46,'strumpet'),(47,'varlet'),(48,'vassal'),(49,'whey-face'),(50,'wagtail');
+/*!40000 ALTER TABLE `insult_adjectives` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+
+
+
+/****************************/
+
+CREATE TABLE IF NOT EXISTS `full_insults` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `insult` varchar(30) DEFAULT NULL,
+  `foreign_key` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+);
+
+INSERT INTO `full_insults` (insult) VALUES 
+("I don't exactly hate you, but if you were on fire and I had water, I'd drink it."),
+("It looks like your face caught on fire and someone tried to put it out with a hammer."),
+("Shut up, you'll never be the man your mother is."),
+("I'll never forget the first time we met, although I'll keep trying."),
+("Yo mama so ugly when she looked in the mirror her reflection walked away"),
+("Do you still love nature, despite what it did to you?"),
+("You so ugly when who were born the doctor threw you out the window and the window threw you back"),
+("I'm not saying he's fat but of the five fattest people I know he's three of them"),
+("I hope you are brought to the top of a cliff by the person you love most in this world, and they push you off. And as you accept your mortality and make peace with it, the moment before you hit the ground, Superman comes out of nowhere and saves you. He then flies into the air, an drops you from even higher."),
+("You look like a before picture"),
+("I'd say that you're funny but looks aren't everything");
