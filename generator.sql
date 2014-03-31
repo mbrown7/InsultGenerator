@@ -148,7 +148,7 @@ CREATE TABLE IF NOT EXISTS `full_insults` (
   PRIMARY KEY (`id`)
 );
 
-INSERT INTO `full_insult` (insult) VALUES 
+INSERT INTO `full_insults` (insult) VALUES 
 ("I don't exactly hate you, but if you were on fire and I had water, I'd drink it."),
 ("It looks like your face caught on fire and someone tried to put it out with a hammer."),
 ("Shut up, you'll never be the man your mother is."),
