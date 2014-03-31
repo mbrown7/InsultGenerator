@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block content %}
+	<div id="body">
+    <center>
+      <p>If someone were to say to you:</p>
+      <p>Thou art a {{adjective1[0][0]}} {{noun1[0][0]}} {{verb1[0][0]}}!</p>
+      <p>or...</p>
+      <p> You are a {{adjective[0][0]}} {{noun[0][0]}} {{verb[0][0]}}!</p>
+      <p> hit them back with this one:</p>
+      <p> {{fullInsult[0][0]}}</p>
+      <p> ............</p>
+      <p> sit back and laugh at their tears</p>
+    <form method = "get" action = "/responses">
+		<table>
+			<tr><td><input type="submit" value="Get New Insult" /></td></tr>
+		</table>
+		</form>
+    </center>
+ 	</div>
+{% endblock %}
