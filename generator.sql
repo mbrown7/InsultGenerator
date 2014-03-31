@@ -137,3 +137,26 @@ INSERT INTO `shakespeare_verbs` VALUES (1,'apple-john'),(2,'baggage'),(3,'barnac
 /*!40000 ALTER TABLE `insult_adjectives` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
+
+
+/****************************/
+
+CREATE TABLE IF NOT EXISTS `full_insults` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `insult` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+INSERT INTO `full_insult` (insult) VALUES 
+("I don't exactly hate you, but if you were on fire and I had water, I'd drink it."),
+("It looks like your face caught on fire and someone tried to put it out with a hammer."),
+("Shut up, you'll never be the man your mother is."),
+("I'll never forget the first time we met, although I'll keep trying."),
+("Yo mama so ugly when she looked in the mirror her reflection walked away"),
+("Do you still love nature, despite what it did to you?"),
+("You so ugly when who were born the doctor threw you out the window and the window threw you back"),
+("I'm not saying he's fat but of the five fattest people I know he's three of them"),
+("I hope you are brought to the top of a cliff by the person you love most in this world, and they push you off. And as you accept your mortality and make peace with it, the moment before you hit the ground, Superman comes out of nowhere and saves you. He then flies into the air, an drops you from even higher."),
+("You look like a before picture"),
+("I'd say that you're funny but looks aren't everything");
