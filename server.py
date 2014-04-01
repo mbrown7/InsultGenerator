@@ -1,10 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 import random
 import MySQLdb
 import utils
 app = Flask(__name__)
 intensity = 1
 currentUser = ''
+app.secret_key = 'Zq4oA4Dqq3' 
+globalLogin = False
 
 @app.route('/')
 def mainIndex( ):
@@ -13,17 +15,6 @@ def mainIndex( ):
 @app.route('/index.html')
 def homeIndex( ):
   return render_template('index.html', curus = currentUser)
-
-@app.route('/custom', methods=['POST','GET'])
-def custom( ):
-  db = utils.db_connect()
-  cur = db.cursor()
-  
-  if request.method == 'POST':
-    #Get the intensity from the form
-    global intensity
-    intensity = request.form['intense']
-  return render_template('custom.html')
 
 @app.route('/insult', methods=['POST','GET'])
 def insult( ):
@@ -214,48 +205,73 @@ def responses( ):
 
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    global currentUser
-    db = utils.db_connect()
-    cur = db.cursor(cursorclass=MySQLdb.cursors.DictCursor)
-    # if user typed in a post ...
-    if request.method == 'POST':
-      username = request.form['username']
-      pw = request.form['pw']
-      query = "select * from users WHERE username = '%s' AND password = SHA2('%s',0)" % (username, pw)
-      cur.execute(query)
-      if cur.fetchone():
-        currentUser = username
-        return redirect(url_for('mainIndex'))
-    return render_template('login.html', selectedMenu='Login', curus = currentUser)
-
-@app.route('/logout', methods=['GET','POST'])
-def logout():
-    global currentUser
-    db = utils.db_connect()
-    cur = db.cursor(cursorclass=MySQLdb.cursors.DictCursor)
-    # if user typed in a post ...
-    if request.method == 'POST':
-      currentUser = ''
-      return redirect(url_for('mainIndex'))
-    return render_template('logout.html', selectedMenu='Logout', curus = currentUser)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    page = 'register'
     global currentUser
-    db = utils.db_connect()
+    global globalLogin
+    db = complimentutil.db_connect()
     cur = db.cursor(cursorclass=MySQLdb.cursors.DictCursor)
     # if user typed in a post ...
     if request.method == 'POST':
-      un = request.form['username']
-      pw = request.form['pw']
-      query = "INSERT INTO users (username, password) VALUES ('%s', SHA2('%s',0))" % (un, pw)
+      print "Thank you for registering with Insult Generator!"
+      username = MySQLdb.escape_string(request.form['username'])
+      currentUser = username
+      password = MySQLdb.escape_string(request.form['password'])
+      
+      query1 = "INSERT INTO users (username) VALUES ('%s')" % username
+      print query1
+      cur.execute(query1)
+      
+      query2 = "INSERT INTO user_passwords (password) VALUES (SHA2('%s', 0))" % password
+      print query2
+      cur.execute(query2)
+      
+      session['username'] = currentUser         
+      query3 = "SELECT * from users WHERE username = '%s'" % session['username']
+      print query3
+      cur.execute(query3)          
+      globalLogin=True
+      return redirect(url_for('index'))
+      
+    return render_template('register.html', page=page, globalLogin=globalLogin)
+  
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    page = 'Login'  
+  
+    global currentUser
+    global globalLogin
+    db = complimentutil.db_connect()
+    cur = db.cursor(cursorclass=MySQLdb.cursors.DictCursor)
+    # if user typed in a post ...
+    if request.method == 'POST':
+      print "Welcome!"
+      username = MySQLdb.escape_string(request.form['username'])
+      currentUser = username
+      
+      pw = MySQLdb.escape_string(request.form['password'])
+      query = "SELECT u.username, up.password FROM users u INNER JOIN user_passwords up ON u.id = up.id WHERE u.username = '%s' AND up.password = SHA2('%s', 0)" % (username, pw)
+      print query
       cur.execute(query)
-      db.commit( )
-      currentUser = un
-      return redirect(url_for('mainIndex'))
-    return render_template('register.html', selectedMenu='Register', curus = currentUser)
+           
+      if cur.fetchone():
+         session['username'] = currentUser                  
+         globalLogin=True
+         return redirect(url_for('index'))
+      else:
+        print "woops, login error! please try again"
+    return render_template('login.html', page=page, globalLogin=globalLogin)
+  
+  
+@app.route('/logout', methods=['GET', 'POST'])
+def logout():
+    global globalLogin
+    session.pop('username', None)
+    globalLogin=False
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0',port=3000)
