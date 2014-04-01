@@ -3,19 +3,19 @@ CREATE DATABASE IF NOT EXISTS insult_generator;
 GRANT ALL PRIVILEGES ON insult_generator.* to 'blogUser'@'localhost' identified by 'blogPassword';
 USE insult_generator;
 
-
-
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(35) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5;
+);
 
 CREATE TABLE IF NOT EXISTS `user_passwords` (
-  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `password` varchar(256) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=5;
-
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `password` varchar(256) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
+);
 
 CREATE TABLE IF NOT EXISTS `insult_adjectives` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -152,7 +152,7 @@ UNLOCK TABLES;
 
 CREATE TABLE IF NOT EXISTS `full_insults` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `insult` varchar(30) DEFAULT NULL,
+  `insult` varchar(500) DEFAULT NULL,
   `foreign_key` int(11),
   PRIMARY KEY (`id`)
 );
