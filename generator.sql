@@ -64,88 +64,53 @@ INSERT INTO `insult_verbs` (verb, intensity) VALUES ('monger',4),('spangler',2),
 /*********************************************************/
 /* shakespeare insults */
 
-
-
-DROP TABLE IF EXISTS `shakespeare_adjectives`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `shakespeare_adjectives` (
+CREATE TABLE IF NOT EXISTS `shakespeare_adjectives` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `adjective` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `intensity` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  INDEX (`intensity`)
+);
 
---
--- Dumping data for table `insult_adjectives`
---
-
-LOCK TABLES `shakespeare_adjectives` WRITE;
-/*!40000 ALTER TABLE `insult_adjectives` DISABLE KEYS */;
-INSERT INTO `shakespeare_adjectives` VALUES (1,'artless'),(2,'bawdy'),(3,'beslubbering'),(4,'bootless'),(5,'churlish'),(6,'cockered')
-,(7,'clouted'),(8,'craven'),(9,'currish'),(10,'dankish'),(11,'dissembling'),(12,'droning'),(13,'errant'),(14,'fawning')
-,(15,'fobbing'),(16,'froward'),(17,'frothy'),(18,'gleeking'),(19,'goatish'),(20,'gorbellied'),(21,'impertinent'),(22,'infectious'),(23,'jarring')
-,(24,'loggerheaded'),(25,'lumpish'),(26,'mammering'),(27,'mangled'),(28,'mewling'),(29,'paunchy'),(30,'pribbling'),(31,'puking'),(32,'puny')
-,(33,'qualling'),(34,'rank'),(35,'reeky'),(36,'roguish'),(37,'ruttish'),(38,'saucy'),(39,'spleeny'),(40,'spongy'),(41,'surly')
-,(42,'tottering'),(43,'unmuzzled'),(44,'vain'),(45,'venomed'),(46,'villainous'),(47,'warped'),(48,'wayward'),(49,'weedy'),(50,'yeasty');
-/*!40000 ALTER TABLE `insult_adjectives` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `shakespeare_adjectives` (adjective, intensity) VALUES ('artless',1),('bawdy',2),('beslubbering',2),('bootless',1),('churlish',3),('cockered',4)
+,('clouted',2),('craven',3),('currish',4),('dankish',3),('dissembling',1),('droning',1),('errant',3),('fawning',1)
+,('fobbing',2),('froward',3),('frothy',4),('gleeking',2),('goatish',3),('gorbellied',3),('impertinent',2),('infectious',2),('jarring',1)
+,('loggerheaded',2),('lumpish',3),('mammering',2),('mangled',4),('mewling',3),('paunchy',3),('pribbling',2),('puking',3),('puny',1)
+,('qualling',2),('rank',4),('reeky',2),('roguish',1),('ruttish',1),('saucy',1),('spleeny',2),('spongy',1),('surly',2)
+,('tottering',2),('unmuzzled',3),('vain',2),('venomed',4),('villainous',4),('warped',3),('wayward',3),('weedy',3),('yeasty',4);
 
 
-
-
-
-DROP TABLE IF EXISTS `shakespeare_nouns`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `shakespeare_nouns` (
+CREATE TABLE IF NOT EXISTS `shakespeare_nouns` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `noun` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `intensity` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  INDEX (`intensity`)
+);
 
---
--- Dumping data for table `insult_adjectives`
---
-
-LOCK TABLES `shakespeare_nouns` WRITE;
-/*!40000 ALTER TABLE `insult_adjectives` DISABLE KEYS */;
-INSERT INTO `shakespeare_nouns` VALUES (1,'base-court'),(2,'bat-fowling'),(3,'beef-witted'),(4,'beetle-headed'),(5,'boil-brained'),(6,'clapper-clawed'),(7,'clay-brained')
-,(8,'common-kissing'),(9,'crook-pated'),(10,'dismal-dreaming'),(11,'dizzy-eyed'),(12,'doghearted'),(13,'dread-bolted'),(14,'earth-vexing'),(15,'elf-skinned')
-,(16,'fat-kidneyed'),(17,'fen-sucking'),(18,'flap-mouthed'),(19,'flap-mouthed'),(20,'fly-bitten'),(21,'fool-born'),(22,'full-gorged'),(23,'guts-griped')
-,(24,'half-faced'),(25,'ahsty-witted'),(26,'hedge-born'),(27,'hell-hated'),(28,'idle-headed'),(29,'ill-breeding'),(30,'ill-nurtured'),(31,'knotty-pated'),(32,'milk-livered')
-,(33,'motly-minded'),(34,'onion-eyed'),(35,'plume-plucked'),(36,'pottle-deep'),(37,'pox-marked'),(38,'reeling-ripe'),(39,'rough-hewn'),(40,'rude-growing'),(41,'rump-fed')
-,(42,'shard-borne'),(43,'sheep-biting'),(44,'spur-galled'),(45,'swag-bellied'),(46,'tardy-gaited'),(47,'tickle-brained'),(48,'toad-spotted'),(49,'unchin-snouted'),(50,'weather-bitten');
-/*!40000 ALTER TABLE `insult_adjectives` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `shakespeare_nouns` (noun, intensity) VALUES ('base-court',1),('bat-fowling',3),('beef-witted',4),('beetle-headed',2),('boil-brained',4),('clapper-clawed',4),('clay-brained',1)
+,('common-kissing',1),('crook-pated',2),('dismal-dreaming',1),('dizzy-eyed',1),('doghearted',3),('dread-bolted',2),('earth-vexing',4),('elf-skinned',4)
+,('fat-kidneyed',3),('fen-sucking',4),('flap-mouthed',3),('fly-bitten',2),('fool-born',3),('full-gorged',4),('guts-griped',3)
+,('half-faced',3),('ahsty-witted',3),('hedge-born',2),('hell-hated',4),('idle-headed',2),('ill-breeding',3),('ill-nurtured',2),('knotty-pated',1),('milk-livered',1)
+,('motly-minded',3),('onion-eyed',1),('plume-plucked',2),('pottle-deep',1),('pox-marked',3),('reeling-ripe',4),('rough-hewn',1),('rude-growing',1),('rump-fed',3)
+,('shard-borne',2),('sheep-biting',4),('spur-galled',4),('swag-bellied',3),('tardy-gaited',3),('tickle-brained',1),('toad-spotted',1),('unchin-snouted',2),('weather-bitten',1);
 
 
-
-DROP TABLE IF EXISTS `shakespeare_verbs`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `shakespeare_verbs` (
+CREATE TABLE IF NOT EXISTS `shakespeare_verbs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `verb` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `intensity` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  INDEX (`intensity`)
+);
 
---
--- Dumping data for table `insult_adjectives`
---
+INSERT INTO `shakespeare_verbs` (verb, intensity) VALUES ('apple-john',1),('baggage',1),('barnacle',2),('bladder',3),('boar-pig',4),('bugbear',1)
+,('bum-bailey',2),('canker-blossom',4),('clack-dish',4),('clotpole',3),('coxcomb',4),('codpiece',4),('death-token',2),('dewberry',1)
+,('flap-dragon',1),('flax-wench',4),('flirt-gill',3),('foot-licker',2),('fustilarian',2),('giglet',3),('gudgeon',3),('haggard',2),('harpy',4)
+,('hedge-pit',2),('horn-beast',1),('hugger-mugger',3),('joithead',3),('lewdster',2),('lout',3),('maggot-pie',4),('malt-worm',3),('mammet',2)
+,('measle',2),('minnow',1),('miscreant',1),('moldwarp',2),('mumble-news',2),('nut-hook',3),('pidgeon-egg',1),('pignut',3),('puttock',4)
+,('pumpion',1),('ratsbane',2),('scut',4),('skainsmate',3),('strumpet',1),('varlet',4),('vassal',3),('whey-face',2),('wagtail',1);
 
-LOCK TABLES `shakespeare_verbs` WRITE;
-/*!40000 ALTER TABLE `insult_adjectives` DISABLE KEYS */;
-INSERT INTO `shakespeare_verbs` VALUES (1,'apple-john'),(2,'baggage'),(3,'barnacle'),(4,'bladder'),(5,'boar-pig'),(6,'bugbear')
-,(7,'bum-bailey'),(8,'canker-blossom'),(9,'clack-dish'),(10,'clotpole'),(11,'coxcomb'),(12,'codpiece'),(13,'death-token'),(14,'dewberry')
-,(15,'flap-dragon'),(16,'flax-wench'),(17,'flirt-gill'),(18,'foot-licker'),(19,'fustilarian'),(20,'giglet'),(21,'gudgeon'),(22,'haggard'),(23,'harpy')
-,(24,'hedge-pit'),(25,'horn-beast'),(26,'hugger-mugger'),(27,'joithead'),(28,'lewdster'),(29,'lout'),(30,'maggot-pie'),(31,'malt-worm'),(32,'mammet')
-,(33,'measle'),(34,'minnow'),(35,'miscreant'),(36,'moldwarp'),(37,'mumble-news'),(38,'nut-hook'),(39,'pidgeon-egg'),(40,'pignut'),(41,'puttock')
-,(42,'pumpion'),(43,'ratsbane'),(44,'scut'),(45,'skainsmate'),(46,'strumpet'),(47,'varlet'),(48,'vassal'),(49,'whey-face'),(50,'wagtail');
-/*!40000 ALTER TABLE `insult_adjectives` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 
