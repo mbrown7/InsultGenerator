@@ -14,17 +14,40 @@ def mainIndex( ):
 def homeIndex( ):
   return render_template('index.html', curus = currentUser)
 
+@app.route('/submittedInsults.html')
+def submittedInsults( ):
+  db = utils.db_connect()
+  cur = db.cursor()
+  rows = []
+  
+  query = "SELECT * from full_insults WHERE NOT user_submitted = NULL"
+  cur.execute(query)
+  rows = cur.fetchall()
+  
+  return render_template('submittedInsults.html', results=rows, curus = currentUser)
 
-@app.route('/custom', methods=['POST','GET'])
+
+
+@app.route('/customize', methods=['POST','GET'])
 def custom( ):
   db = utils.db_connect()
   cur = db.cursor()
+  if currentUser == '':
+    user = anonymous
+  else:
+      user = currentUser
   
   if request.method == 'POST':
-    #Get the intensity from the form
-    global intensity
-    intensity = request.form['intense']
-  return render_template('custom.html')
+    insult = request.form['insult']    
+    query = "SELECT * FROM full_insults"
+    cur.execute(query)
+    possible = cur.fetchall()
+    numpossible = len(possible)
+    query = "INSERT INTO full_insults (insult, foreign_key, user_submitted) VALUES (" + str(insult) + "," + str(numpossible + 1) + "," + str(user) +")"
+    cur.execute(query)
+    db.commit( )
+  return render_template('customize.html')
+
 
 @app.route('/insult', methods=['POST','GET'])
 def insult( ):
