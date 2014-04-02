@@ -31,7 +31,6 @@ def submittedInsults( ):
   
   return render_template('submittedInsults.html', results=rows, curus = currentUser)
 
-
 @app.route('/custom', methods=['POST','GET'])
 def custom( ):
   return render_template('custom.html')
@@ -194,6 +193,9 @@ def register():
       db.commit( )
       currentUser = un
       return redirect(url_for('mainIndex'))
+    else:
+      warn = "That username already exists!"
+      return render_template('warning.html', warn = warn)
   return render_template('register.html', curus = currentUser)
   
 @app.route('/login', methods=['GET', 'POST'])
