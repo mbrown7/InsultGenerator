@@ -19,26 +19,15 @@ def submittedInsults( ):
   db = utils.db_connect()
   cur = db.cursor()
   if currentUser == '':
-    print "no user"
     rows = []
   else:
-    print "here"
     query = "SELECT id FROM users WHERE username = '" + currentUser + "'"
     cur.execute(query)
-    print "did this"
     qida = cur.fetchall()
-    print "WOMP"
-    print qida
-    print qida[0][0]
     qid = qida[0][0]
-    print "qid"
-    print qid
     query = "SELECT insult FROM full_insults WHERE user_id = " + str(qid)
     cur.execute(query)
-    print query
     rows = cur.fetchall()
-    print rows
-    print rows[0][0]
   
   return render_template('submittedInsults.html', results=rows, curus = currentUser)
 
@@ -57,9 +46,9 @@ def insult( ):
     #Get the intensity from the form
     global intensity
     intensity = request.form['intense']
-    insult = request.form['insult']
+    insult = MySQLdb.escape_string(request.form['insult'])
     if insult == '':
-      print "empty"
+      ''
     else:
       if currentUser == '':
         qid = 1
@@ -181,20 +170,30 @@ def register():
   cur = db.cursor(cursorclass=MySQLdb.cursors.DictCursor)
   # if user typed in a post ...
   if request.method == 'POST':
-    un = request.form['username']
-    pw = request.form['pw']
-    query = "INSERT INTO users (username) VALUES ('%s')" % (un)
+    un = MySQLdb.escape_string(request.form['username'])
+    pw = MySQLdb.escape_string(request.form['pw'])
+    stop = 0
+    query = "SELECT COUNT(*) FROM users"
+    cur.execute(query)
+    countBefore = cur.fetchall()
+    query = "INSERT INTO users (username) SELECT name FROM (SELECT '%s' AS name) t WHERE NOT EXISTS (SELECT * FROM users WHERE username = '%s')" % (un, un)
     cur.execute(query)
     db.commit( )
-    query2 = "SELECT id FROM users WHERE username = '%s'" % (un)
-    cur.execute(query2)
-    tida = cur.fetchall( )
-    tid = tida[0]['id']
-    query3 = "INSERT INTO user_passwords (password, user_id) VALUES (SHA2('%s',0), %d)" % (pw, tid)
-    cur.execute(query3)
-    db.commit( )
-    currentUser = un
-    return redirect(url_for('mainIndex'))
+    query = "SELECT COUNT(*) FROM users"
+    cur.execute(query)
+    countAfter = cur.fetchall()
+    if countAfter == countBefore:
+      stop = 1
+    if stop != 1:
+      query2 = "SELECT id FROM users WHERE username = '%s'" % (un)
+      cur.execute(query2)
+      tida = cur.fetchall( )
+      tid = tida[0]['id']
+      query3 = "INSERT INTO user_passwords (password, user_id) VALUES (SHA2('%s',0), %d)" % (pw, tid)
+      cur.execute(query3)
+      db.commit( )
+      currentUser = un
+      return redirect(url_for('mainIndex'))
   return render_template('register.html', curus = currentUser)
   
 @app.route('/login', methods=['GET', 'POST'])
@@ -203,8 +202,8 @@ def login():
   db = utils.db_connect()
   cur = db.cursor(cursorclass=MySQLdb.cursors.DictCursor)
   if request.method == 'POST':
-    username = request.form['username']
-    pw = request.form['pw']
+    username = MySQLdb.escape_string(request.form['username'])
+    pw = MySQLdb.escape_string(request.form['pw'])
     query = "SELECT * FROM user_passwords AS up INNER JOIN users AS u ON up.user_id = u.id WHERE u.username = '%s' AND up.password = SHA2('%s',0)" % (username, pw)
     cur.execute(query)
     if cur.fetchone( ):
