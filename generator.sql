@@ -21,7 +21,8 @@ CREATE TABLE IF NOT EXISTS `insult_adjectives` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `adjective` varchar(10) DEFAULT NULL,
   `intensity` int(1) DEFAULT '0',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  INDEX (`intensity`)
 );
 
 #intensity 0 = tame, intensity 4 = most offensive
@@ -33,7 +34,8 @@ CREATE TABLE IF NOT EXISTS `insult_nouns` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `noun` varchar(10) DEFAULT NULL,
   `intensity` int(1) DEFAULT '0',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  INDEX (`intensity`)
 );
 
 #intensity 0 = tame, intensity 4 = most offensive
@@ -45,7 +47,8 @@ CREATE TABLE IF NOT EXISTS `insult_verbs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `verb` varchar(10) DEFAULT NULL,
   `intensity` int(1) DEFAULT '0',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  INDEX (`intensity`)
 );
 
 #intensity 0 = tame, intensity 4 = most offensive
