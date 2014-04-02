@@ -35,7 +35,6 @@ def submittedInsults( ):
 def custom( ):
   return render_template('custom.html')
 
-
 @app.route('/insult', methods=['POST','GET'])
 def insult( ):
   db = utils.db_connect()
@@ -204,13 +203,17 @@ def login():
   db = utils.db_connect()
   cur = db.cursor(cursorclass=MySQLdb.cursors.DictCursor)
   if request.method == 'POST':
-    username = MySQLdb.escape_string(request.form['username'])
-    pw = MySQLdb.escape_string(request.form['pw'])
-    query = "SELECT * FROM user_passwords AS up INNER JOIN users AS u ON up.user_id = u.id WHERE u.username = '%s' AND up.password = SHA2('%s',0)" % (username, pw)
-    cur.execute(query)
-    if cur.fetchone( ):
-      currentUser = username
-      return redirect(url_for('mainIndex'))
+    if currentUser == '':
+      username = MySQLdb.escape_string(request.form['username'])
+      pw = MySQLdb.escape_string(request.form['pw'])
+      query = "SELECT * FROM user_passwords AS up INNER JOIN users AS u ON up.user_id = u.id WHERE u.username = '%s' AND up.password = SHA2('%s',0)" % (username, pw)
+      cur.execute(query)
+      if cur.fetchone( ):
+        currentUser = username
+        return redirect(url_for('mainIndex'))
+    else:
+      warn = "You are already logged in as " + currentUser + "!"
+      return render_template('warning.html', warn = warn)
   return render_template('login.html', curus = currentUser)
   
 @app.route('/logout', methods=['GET','POST'])
