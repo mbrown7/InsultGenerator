@@ -5,8 +5,6 @@ import utils
 app = Flask(__name__)
 intensity = 1
 currentUser = ''
-app.secret_key = 'Zq4oA4Dqq3' 
-globalLogin = False
 
 @app.route('/')
 def mainIndex( ):
@@ -199,7 +197,7 @@ def responses( ):
   query = "SELECT adjective FROM shakespeare_adjectives WHERE id = " + str(rand)
   cur.execute(query)
   adjective1 = cur.fetchall()
-  
+
   #/***************************/
   #/****# regular insults *****/
   
@@ -249,11 +247,11 @@ def responses( ):
   query = "SELECT adjective FROM insult_adjectives WHERE id = " + str(target)
   cur.execute(query)
   adjective = cur.fetchall()
-  
+
   #/***************************/
   #/******# long insult *******/
 
-  query = "SELECT fi.insult FROM full_insults AS fi INNER JOIN shakespeare_adjectives AS sa ON fi.foreign_key = sn.id AND sa.id = " + str(target)
+  query = "SELECT fi.insult FROM full_insults AS fi INNER JOIN shakespeare_adjectives AS sa ON fi.foreign_key = sa.id AND sa.id = " + str(target)
   cur.execute(query)
   fullInsult = cur.fetchall()
   
