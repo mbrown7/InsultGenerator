@@ -122,6 +122,7 @@ CREATE TABLE IF NOT EXISTS `full_insults` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `insult` varchar(500) DEFAULT NULL,
   `foreign_key` int(11),
+  `user_submitted` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
 
