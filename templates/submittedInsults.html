@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Thanks for helping us expand our database of insults!</h1>
+         <table>
+         <tr><th>insult</th><th>user</th>
+         {% for result in results %}
+         <tr><td>{{result['insult']}}</td><td>{{result['user_submitted']}}</td></tr>
+         {% endfor %}
+         </table>
+
+{% endblock %}
