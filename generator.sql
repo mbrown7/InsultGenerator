@@ -9,6 +9,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`id`)
 );
 
+INSERT INTO `users` (`username`) VALUES ('admin'),('Morgan');
+
 CREATE TABLE IF NOT EXISTS `user_passwords` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `password` varchar(256) NOT NULL,
@@ -16,6 +18,8 @@ CREATE TABLE IF NOT EXISTS `user_passwords` (
   PRIMARY KEY (`id`),
   FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
 );
+
+INSERT INTO `user_passwords` (`password`,`user_id`) VALUES (SHA2('admin',0),1),(SHA2('Kermit',0),2);
 
 CREATE TABLE IF NOT EXISTS `insult_adjectives` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -121,42 +125,44 @@ INSERT INTO `shakespeare_verbs` (verb, intensity) VALUES ('apple-john',1),('bagg
 CREATE TABLE IF NOT EXISTS `full_insults` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `insult` varchar(500) DEFAULT NULL,
-  `foreign_key` int(11),
-  `user_submitted` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `user_id` int(11) DEFAULT 1,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
 );
 
-INSERT INTO `full_insults` (insult, foreign_key) VALUES 
-("I don't exactly hate you, but if you were on fire and I had water, I'd drink it.", 1),
-("It looks like your face caught on fire and someone tried to put it out with a hammer.", 2),
-("Shut up, you'll never be the man your mother is.", 3),
-("I'll never forget the first time we met, although I'll keep trying.", 4),
-("Yo mama so ugly when she looked in the mirror her reflection walked away", 5),
-("Do you still love nature, despite what it did to you?", 6),
-("You so ugly when who were born the doctor threw you out the window and the window threw you back", 7),
-("I'm not saying he's fat but of the five fattest people I know he's three of them", 8),
-("I hope you are brought to the top of a cliff by the person you love most in this world, and they push you off. And as you accept your mortality and make peace with it, the moment before you hit the ground, Superman comes out of nowhere and saves you. He then flies into the air, an drops you from even higher.", 9),
-("You look like a before picture", 10),
-("I'd say that you're funny but looks aren't everything", 11),
-("You should have been born in the Dark Ages; you look terrible in the light.", 12),
-("Ever since I saw you in your family tree, I've wanted to cut it down.", 13),
-("You are so old, even your memory is in black and white.", 14),
-("You're a person of rare intelligence. It's rare when you show any.", 15),
-("I heard your parents took you to a dog show and you won.", 16),
-("You fear success, but really have nothing to worry about.", 17),
-("You are proof that evolution CAN go in reverse.", 18),
-("I love what you've done with your hair. How did you get it to come out of one nostril like that?", 19),
-("In the battle of wits you're an unarmed man.", 20),
-("You are so old, the candles on your birthday cake raised earth's temperature by 3 degrees.", 21),
-("You are so dumb, you planted a dogwood tree and expected a litter of puppies.", 22),
-("Your house is so nasty, I tripped over a rat, and a cockroach stole my wallet.", 23),
-("Some drink from the fountain of knowledge, you just gargled.", 24),
-("Your house is so dirty you have to wipe your feet before you go outside.", 25),
-("I heard you got a brain transplant and the brain rejected you.", 26),
-("You look like you just escaped from planet of the apes.", 27),
-("You conserve toilet paper by using both sides.", 28),
-("What are you going to do for a face when the baboon wants his butt back?", 29),
-("To make you laugh on Saturday, I'd need to tell you a joke on Wednesday.", 30),
-("You weren't fully debugged before being released.", 31),
-("You must be from the shallow end of the gene pool.", 32),
-("You're so dense, light bends around you.", 33);
+INSERT INTO `full_insults` (insult) VALUES 
+("I don't exactly hate you, but if you were on fire and I had water, I'd drink it."),
+("It looks like your face caught on fire and someone tried to put it out with a hammer."),
+("Shut up, you'll never be the man your mother is."),
+("I'll never forget the first time we met, although I'll keep trying."),
+("Yo mama so ugly when she looked in the mirror her reflection walked away"),
+("Do you still love nature, despite what it did to you?"),
+("You so ugly when who were born the doctor threw you out the window and the window threw you back"),
+("I'm not saying he's fat but of the five fattest people I know he's three of them"),
+("I hope you are brought to the top of a cliff by the person you love most in this world, and they push you off. And as you accept your mortality and make peace with it, the moment before you hit the ground, Superman comes out of nowhere and saves you. He then flies into the air, and drops you from even higher."),
+("You look like a before picture"),
+("I'd say that you're funny but looks aren't everything"),
+("You should have been born in the Dark Ages; you look terrible in the light."),
+("Ever since I saw you in your family tree, I've wanted to cut it down."),
+("You are so old, even your memory is in black and white."),
+("You're a person of rare intelligence. It's rare when you show any."),
+("I heard your parents took you to a dog show and you won."),
+("You fear success, but really have nothing to worry about."),
+("You are proof that evolution CAN go in reverse."),
+("I love what you've done with your hair. How did you get it to come out of one nostril like that?"),
+("In the battle of wits you're an unarmed man."),
+("You are so old, the candles on your birthday cake raised earth's temperature by 3 degrees."),
+("You are so dumb, you planted a dogwood tree and expected a litter of puppies."),
+("Your house is so nasty, I tripped over a rat, and a cockroach stole my wallet."),
+("Some drink from the fountain of knowledge, you just gargled."),
+("Your house is so dirty you have to wipe your feet before you go outside."),
+("I heard you got a brain transplant and the brain rejected you."),
+("You look like you just escaped from planet of the apes."),
+("You conserve toilet paper by using both sides."),
+("What are you going to do for a face when the baboon wants his butt back?"),
+("To make you laugh on Saturday, I'd need to tell you a joke on Wednesday."),
+("You weren't fully debugged before being released."),
+("You must be from the shallow end of the gene pool."),
+("You're so dense, light bends around you.");
+
+INSERT INTO `full_insults` (`insult`, `user_id`) VALUES ("Say that to my face, you limp noodle!",2);

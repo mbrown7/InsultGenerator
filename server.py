@@ -14,39 +14,38 @@ def mainIndex( ):
 def homeIndex( ):
   return render_template('index.html', curus = currentUser)
 
-@app.route('/submittedInsults.html')
+@app.route('/submittedInsults')
 def submittedInsults( ):
   db = utils.db_connect()
   cur = db.cursor()
-  rows = []
-  
-  query = "SELECT * from full_insults WHERE NOT user_submitted = NULL"
-  cur.execute(query)
-  rows = cur.fetchall()
+  if currentUser == '':
+    print "no user"
+    rows = []
+  else:
+    print "here"
+    query = "SELECT id FROM users WHERE username = '" + currentUser + "'"
+    cur.execute(query)
+    print "did this"
+    qida = cur.fetchall()
+    print "WOMP"
+    print qida
+    print qida[0][0]
+    qid = qida[0][0]
+    print "qid"
+    print qid
+    query = "SELECT insult FROM full_insults WHERE user_id = " + str(qid)
+    cur.execute(query)
+    print query
+    rows = cur.fetchall()
+    print rows
+    print rows[0][0]
   
   return render_template('submittedInsults.html', results=rows, curus = currentUser)
 
 
-
-@app.route('/customize', methods=['POST','GET'])
+@app.route('/custom', methods=['POST','GET'])
 def custom( ):
-  db = utils.db_connect()
-  cur = db.cursor()
-  if currentUser == '':
-    user = anonymous
-  else:
-      user = currentUser
-  
-  if request.method == 'POST':
-    insult = request.form['insult']    
-    query = "SELECT * FROM full_insults"
-    cur.execute(query)
-    possible = cur.fetchall()
-    numpossible = len(possible)
-    query = "INSERT INTO full_insults (insult, foreign_key, user_submitted) VALUES (" + str(insult) + "," + str(numpossible + 1) + "," + str(user) +")"
-    cur.execute(query)
-    db.commit( )
-  return render_template('customize.html')
+  return render_template('custom.html')
 
 
 @app.route('/insult', methods=['POST','GET'])
@@ -58,6 +57,20 @@ def insult( ):
     #Get the intensity from the form
     global intensity
     intensity = request.form['intense']
+    insult = request.form['insult']
+    if insult == '':
+      print "empty"
+    else:
+      if currentUser == '':
+        qid = 1
+      else:
+        query = "SELECT id FROM users WHERE username = '" + currentUser + "'"
+        cur.execute(query)
+        qida = cur.fetchall()
+        qid = qida[0][0]
+      query = "INSERT INTO full_insults (insult, user_id) VALUES ('" + insult + "', " + str(qid) + ")"
+      cur.execute(query)
+      db.commit( )
 
   #Getting the verb
   #search based on intensity
@@ -218,7 +231,6 @@ def responses( ):
   
   #/***************************/
   #/****# shakespeare insults *****/
-  
   query = "SELECT COUNT(*) FROM shakespeare_verbs"
   cur.execute(query)
   numverbs = cur.fetchall()
@@ -246,7 +258,6 @@ def responses( ):
   #/***************************/
   #/****# regular insults *****/
   
-
   query = "SELECT id FROM insult_verbs"
   cur.execute(query)
   #get all the verbs of that intensity
@@ -296,10 +307,20 @@ def responses( ):
   #/***************************/
   #/******# long insult *******/
 
-  query = "SELECT fi.insult FROM full_insults AS fi INNER JOIN shakespeare_adjectives AS sa ON fi.foreign_key = sa.id AND sa.id = " + str(target)
+  query = "SELECT id FROM full_insults"
+  cur.execute(query)
+  #get all the verbs of that intensity
+  possible = cur.fetchall()
+  numpossible = len(possible)
+  #pick a random index to use
+  rand = random.randint(0,numpossible-1)
+  #get the value at that index
+  target = possible[rand][0]
+  #use that value as the id of the verb
+  query = "SELECT insult FROM full_insults WHERE id = " + str(target)
   cur.execute(query)
   fullInsult = cur.fetchall()
-  
+  print "did all queries"
   
   #/**************************/
   
