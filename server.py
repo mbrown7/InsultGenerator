@@ -35,8 +35,7 @@ def insult( ):
     #Get the intensity from the form
     global intensity
     intensity = request.form['intense']
-  
-  print intensity
+
   #Getting the verb
   #search based on intensity
   query = "SELECT id FROM insult_verbs WHERE intensity = '" + str(intensity) + "'"
@@ -91,30 +90,53 @@ def shakespeare( ):
   db = utils.db_connect()
   cur = db.cursor()
   
-  query = "SELECT COUNT(*) FROM shakespeare_verbs"
-  cur.execute(query)
-  numverbs = cur.fetchall()
-  rand = random.randint(1,numverbs[0][0])
-  query = "SELECT verb FROM shakespeare_verbs WHERE id = " + str(rand)
-  cur.execute(query)
-  verb1 = cur.fetchall()
+  if request.method == 'POST':
+    #Get the intensity from the form
+    global intensity
+    intensity = request.form['intense']
   
-  query = "SELECT COUNT(*) FROM shakespeare_nouns"
+  query = "SELECT id FROM shakespeare_verbs WHERE intensity = '" + str(intensity) + "'"
   cur.execute(query)
-  numnouns = cur.fetchall()
-  rand = random.randint(1,numnouns[0][0])
-  query = "SELECT noun FROM shakespeare_nouns WHERE id = " + str(rand)
+  #get all the verbs of that intensity
+  possible = cur.fetchall()
+  numpossible = len(possible)
+  #pick a random index to use
+  rand = random.randint(0,numpossible-1)
+  #get the value at that index
+  target = possible[rand][0]
+  #use that value as the id of the verb
+  query = "SELECT verb FROM shakespeare_verbs WHERE id = " + str(target)
   cur.execute(query)
-  noun1 = cur.fetchall()
+  verb = cur.fetchall()
   
-  query = "SELECT COUNT(*) FROM shakespeare_adjectives"
+  query = "SELECT id FROM shakespeare_nouns WHERE intensity = '" + str(intensity) + "'"
   cur.execute(query)
-  numadjectives = cur.fetchall()
-  rand = random.randint(1,numadjectives[0][0])
-  query = "SELECT adjective FROM shakespeare_adjectives WHERE id = " + str(rand)
+  #get all the verbs of that intensity
+  possible = cur.fetchall()
+  numpossible = len(possible)
+  #pick a random index to use
+  rand = random.randint(0,numpossible-1)
+  #get the value at that index
+  target = possible[rand][0]
+  #use that value as the id of the verb
+  query = "SELECT noun FROM shakespeare_nouns WHERE id = " + str(target)
   cur.execute(query)
-  adjective1 = cur.fetchall()
-  return render_template('shakespeare.html', verb1 = verb1, noun1 = noun1, adjective1 = adjective1)
+  noun = cur.fetchall()
+  
+  query = "SELECT id FROM shakespeare_adjectives WHERE intensity = '" + str(intensity) + "'"
+  cur.execute(query)
+  #get all the verbs of that intensity
+  possible = cur.fetchall()
+  numpossible = len(possible)
+  #pick a random index to use
+  rand = random.randint(0,numpossible-1)
+  #get the value at that index
+  target = possible[rand][0]
+  #use that value as the id of the verb
+  query = "SELECT adjective FROM shakespeare_adjectives WHERE id = " + str(target)
+  cur.execute(query)
+  adjective = cur.fetchall()
+  return render_template('shakespeare.html', verb = verb, noun = noun, adjective = adjective)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
