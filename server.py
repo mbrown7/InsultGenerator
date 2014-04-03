@@ -33,13 +33,6 @@ def submittedInsults( ):
 
 @app.route('/custom', methods=['POST','GET'])
 def custom( ):
-  return render_template('custom.html')
-
-@app.route('/insult', methods=['POST','GET'])
-def insult( ):
-  db = utils.db_connect()
-  cur = db.cursor()
-  
   if request.method == 'POST':
     #Get the intensity from the form
     global intensity
@@ -58,6 +51,12 @@ def insult( ):
       query = "INSERT INTO full_insults (insult, user_id) VALUES ('" + insult + "', " + str(qid) + ")"
       cur.execute(query)
       db.commit( )
+  return render_template('custom.html')
+
+@app.route('/insult', methods=['POST','GET'])
+def insult( ):
+  db = utils.db_connect()
+  cur = db.cursor()
 
   #Getting the verb
   #search based on intensity
