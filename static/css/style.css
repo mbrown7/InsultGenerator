@@ -36,19 +36,20 @@ body {
 	float: left;
 	margin: 0;
 	padding: 60px 0 0 10px;
-	width: 324px;
+	width: 448px;
 }
 #header .section .logo a {
-	background: url(../img/bg-logo.png) repeat-x top left;
+	/*background: url(../img/bg-logo.png) repeat-x top left;*/
+  background: #99ccff repeat-x top left;
 	color: #fff;
 	display: block;
 	font-family: 'Arimo-Bold';
 	font-size: 60px;
 	font-weight: normal;
-	height: 130px;
+	height: 120px;
 	line-height: 130px;
 	margin: 0;
-	padding: 0;
+	padding: 50;
 	text-align:center;
 	text-decoration: none;
 	text-transform: uppercase;
@@ -59,7 +60,7 @@ body {
 	float: right;
 	margin: 0;
 	overflow: hidden;
-	padding: 114px 0 0;
+	padding: 100px 0 0;
 }
 #header .section ul li {
 	background: url(../img/bg-nav-right.gif) no-repeat top right;
@@ -67,10 +68,11 @@ body {
 	float: left;
 	list-style: none;
 	margin: 0 10px;
-	padding: 0;
+	padding: 10;
 }
 #header .section ul li a {
-	background: url(../img/bg-nav-left.gif) no-repeat top left;
+	/*background: url(../img/bg-nav-left.gif) no-repeat top left;*/
+  background: #3399ff no-repeat top left;
 	color: #fff;
 	display: inline-block;
 	font-size: 16px;
@@ -78,13 +80,13 @@ body {
 	letter-spacing: 0.05em;
 	line-height: 30px;
 	margin: 0;
-	padding: 0 15px;
+	padding: 25 25px;
 	text-align: center;
 	text-decoration: none;
 	text-transform: uppercase;
 }
 #header .section ul li a:hover {
-	color: #ccc;
+	color: #000000;
 }
 #header .section ul li.selected {
 	background: url(../img/bg-nav-right-selected.gif) no-repeat top right;
@@ -93,9 +95,9 @@ body {
 	background: url(../img/bg-nav-left-selected.gif) no-repeat top left;
 }
 #header .article {
-	background: #fff;
-	border: 2px solid #5fb3bd;
-	border-radius: 4px;
+	background: #3399ff;
+	border: 6px solid #99ccff;
+	border-radius: 8px;
 	margin: 50px auto 28px;
 	overflow: hidden;
 	padding: 0;
@@ -108,17 +110,17 @@ body {
 	padding: 0;
 }
 #header .article h1 {
-	color: #1b2130;
+	color: #ffffff;
 	font-family: 'ChangaOne';
 	font-size: 40px;
 	font-weight: normal;
 	margin: 0;
-	line-height: 50px;
-	padding: 110px 30px 30px;
+	line-height: 45px;
+	padding: 110px 30px 0px;
 }
 #body {
 	margin: 0 auto;
-	min-height: 812px;
+	min-height: 725px;
 	padding: 20px 0 50px;
 	width: 960px;
 }
@@ -150,7 +152,7 @@ body {
 	padding: 0;
 }
 #body > ul li b {
-	color: #000;
+	color: #ffffff;
 	display: block;
 	font-size: 18px;
 	font-weight: normal;
@@ -159,9 +161,9 @@ body {
 	text-transform: capitalize;
 }
 #body > ul li p {
-	color: #464646;
+	color: #ffffff;
 	font-size: 12px;
-	line-height: 24px;
+	line-height: 20px;
 	margin: 0;
 	padding: 0;
 }
@@ -197,7 +199,7 @@ body {
 	font-family: 'Comfortaa-Regular';
 	font-size: 20px;
 	font-weight: normal;
-	height: 47px;
+	height: 40px;
 	letter-spacing: 0.1em;
 	left: 15px;
 	line-height: 47px;
@@ -208,7 +210,7 @@ body {
 	top: -14px;
 }
 #body h3 {
-	color: #2f394e;
+	color: #ffffff;
 	margin: 0;
 	padding: 0;
 	font-size: 20px;
@@ -229,9 +231,9 @@ body {
 #body > p {
 	color: #464646;
 	font-size: 13px;
-	line-height: 24px;
+	line-height: 100px;
 	margin: 0;
-	padding: 30px 10px;
+	padding: 10px 10px;
 }
 #body > p a {
 	color: #464646;
@@ -541,8 +543,8 @@ body {
 	color: #4c8f97;
 }
 #footer {
-	background: #4c8f96;
-	border-top: 1px solid #9bd9e0;
+	background: #3399ff;
+	border-top: 6px solid #99ccff;
 	margin: 0;
 	padding: 0;
 }
@@ -554,7 +556,7 @@ body {
 	width: 960px;
 }
 #footer div p {
-	color: #ededed;
+	color: #ffffff;
 	display: inline-block;
 	float: right;
 	font-size: 12px;
@@ -564,7 +566,7 @@ body {
 	text-align: center;
 }
 #footer div .connect {
-	background: #387a82;
+	background: #ffffff;
 	float: right;
 	height: 18px;
 	margin: 0 20px 0 150px;
@@ -573,7 +575,7 @@ body {
 	width: 144px;
 }
 #footer div .connect span {
-	color: #ededed;
+	color: #3399ff;
 	display: inline-block;
 	float: left;
 	font-size: 12px;
