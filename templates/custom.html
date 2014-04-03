@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block content %}
+	<div id="body">
+    <center>
+    <form method = "post" action = "/insult">
+		<table>
+			<tr><td>How Intense?</td><td>tame <input type="range" id="intense" name="intense" min="1" max="4" step="1" value="1"/>offensive</td></tr>
+      <tr><td><input type="submit" value="Set Intensity" /></td></tr>
+      <tr><td>Custom Insult:</td><td><input type="text" id="insult" name="insult" /></td></tr>
+      <tr><td><input type="submit" value="Submit Insult!" /></td></tr>
+		</table>
+		</form>
+    </center>
+ 	</div>
+
+
+
+{% endblock %}
