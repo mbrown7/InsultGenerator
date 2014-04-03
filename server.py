@@ -34,6 +34,7 @@ def submittedInsults( ):
 @app.route('/custom', methods=['POST','GET'])
 def custom( ):
   if request.method == 'POST':
+    print "in post"
     #Get the intensity from the form
     global intensity
     intensity = request.form['intense']
@@ -41,6 +42,7 @@ def custom( ):
     if insult == '':
       ''
     else:
+      print "doing insult"
       if currentUser == '':
         qid = 1
       else:
@@ -48,9 +50,13 @@ def custom( ):
         cur.execute(query)
         qida = cur.fetchall()
         qid = qida[0][0]
+      print qid
       query = "INSERT INTO full_insults (insult, user_id) VALUES ('" + insult + "', " + str(qid) + ")"
+      print query
       cur.execute(query)
       db.commit( )
+      print done
+      return render_template('custom.html')
   return render_template('custom.html')
 
 @app.route('/insult', methods=['POST','GET'])
