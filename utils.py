@@ -1,6 +1,5 @@
 import MySQLdb
 
-
 DATABASE='insult_generator'
 DB_USER = 'blogUser'
 DB_PASSWORD = 'blogPassword'
