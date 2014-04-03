@@ -33,8 +33,10 @@ def submittedInsults( ):
 
 @app.route('/custom', methods=['POST','GET'])
 def custom( ):
+  db = utils.db_connect()
+  cur = db.cursor()
+
   if request.method == 'POST':
-    print "in post"
     #Get the intensity from the form
     global intensity
     intensity = request.form['intense']
@@ -42,7 +44,6 @@ def custom( ):
     if insult == '':
       ''
     else:
-      print "doing insult"
       if currentUser == '':
         qid = 1
       else:
@@ -50,20 +51,16 @@ def custom( ):
         cur.execute(query)
         qida = cur.fetchall()
         qid = qida[0][0]
-      print qid
       query = "INSERT INTO full_insults (insult, user_id) VALUES ('" + insult + "', " + str(qid) + ")"
-      print query
       cur.execute(query)
       db.commit( )
-      print done
-      return render_template('custom.html')
   return render_template('custom.html')
 
 @app.route('/insult', methods=['POST','GET'])
 def insult( ):
   db = utils.db_connect()
   cur = db.cursor()
-
+  
   #Getting the verb
   #search based on intensity
   query = "SELECT id FROM insult_verbs WHERE intensity = '" + str(intensity) + "'"
